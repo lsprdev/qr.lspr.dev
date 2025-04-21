@@ -54,19 +54,6 @@ export default function QrGenerator() {
     return () => clearTimeout(timer)
   }, [url, language])
 
-  const refreshQrCode = () => {
-    if (!url || url.length > MAX_URL_LENGTH) return
-
-    setAnimating(true)
-
-    toast({
-      title: getRandomMessage(language),
-      duration: 2000,
-    })
-
-    setTimeout(() => setAnimating(false), 300)
-  }
-
   const downloadQRCode = () => {
     if (!qrRef.current) return
 
@@ -135,6 +122,7 @@ export default function QrGenerator() {
 
       img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)))
     } catch (err) {
+      console.error("Error copying to clipboard:", err)
       await navigator.clipboard.writeText(qrValue)
       setCopied(true)
       toast({
