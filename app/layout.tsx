@@ -1,19 +1,16 @@
 import type React from "react"
 import type { Metadata } from "next"
+import "@/app/globals.css"
 import { Inter } from "next/font/google"
-import "./globals.css"
-import { Toaster } from "sonner"
+import { ThemeProvider } from "@/components/theme-provider"
+import { LanguageProvider } from "@/hooks/use-language"
+import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "qr.lspr.dev | Gerador de QR Code",
-  description: "Gerador de QR Code simples, rápido e gratuito",
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/apple-icon.png",
-  },
+  title: "QR Code Generator | lspr.dev",
+  description: "Simple and fast QR Code generator",
 }
 
 export default function RootLayout({
@@ -23,9 +20,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
+      <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" />
+      </head>
       <body className={inter.className}>
-        {children}
-        <Toaster position="top-center" />
+        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem>
+          <LanguageProvider>
+            {children}
+            <Toaster />
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   )
